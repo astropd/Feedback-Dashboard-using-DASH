@@ -3,7 +3,7 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 from app import app
-from data_generator import df, lessons, activities, food_items
+from data import df, lessons, activities, food_items
 
 @app.callback(
     Output('average-ratings-chart', 'figure'),

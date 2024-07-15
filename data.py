@@ -3,10 +3,10 @@ import numpy as np
 
 def load_and_process_data():
     # Load student details
-    students_df = pd.read_csv('Student Details - Sheet1.csv')
+    students_df = pd.read_csv('data/Student Details - Sheet1.csv')
     
     # Load feedback data
-    feedback_df = pd.read_csv('Summer 2024 Camps Feedback - TCC - Tokyo 2.csv', header=1)
+    feedback_df = pd.read_csv('data/Summer 2024 Camps Feedback - TCC - Tokyo 2.csv', header=1)
     
     # Melt the feedback dataframe to long format
     feedback_long = pd.melt(feedback_df, id_vars=['Unnamed: 0', 'Unnamed: 1'], 
