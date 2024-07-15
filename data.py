@@ -1,24 +1,32 @@
 import pandas as pd
 import numpy as np
 
-def generate_dummy_data(n_students=200):
-    np.random.seed(42)
+def load_and_process_data():
+    # Load student details
+    students_df = pd.read_csv('Student Details - Sheet1.csv')
+    
+    # Load feedback data
+    feedback_df = pd.read_csv('Summer 2024 Camps Feedback - TCC - Tokyo 2.csv', header=1)
+    
+    # Melt the feedback dataframe to long format
+    feedback_long = pd.melt(feedback_df, id_vars=['Unnamed: 0', 'Unnamed: 1'], 
+                            var_name='Name', value_name='Rating')
+    
+    # Rename columns
+    feedback_long = feedback_long.rename(columns={'Unnamed: 0': 'Category', 'Unnamed: 1': 'Item'})
+    
+    # Remove rows with NaN ratings
+    feedback_long = feedback_long.dropna(subset=['Rating'])
+    
+    # Merge student details with feedback data
+    merged_df = pd.merge(feedback_long, students_df, on='Name', how='left')
+    
+    # Create lists of lessons, activities, and food items
+    lessons = feedback_long[feedback_long['Category'] == 'Lessons']['Item'].unique().tolist()
+    activities = feedback_long[feedback_long['Category'] == 'Activities']['Item'].unique().tolist()
+    food_items = feedback_long[feedback_long['Category'] == 'Food']['Item'].unique().tolist()
+    
+    return merged_df, lessons, activities, food_items
 
-    lessons = ['Math', 'Science', 'English', 'Art', 'Music']
-    activities = ['Sports', 'Crafts', 'Games', 'Dance', 'Excursion']
-    food_items = ['Breakfast', 'Lunch', 'Dinner', 'Snacks']
-
-    data = {
-        'Age': np.random.randint(8, 18, n_students),
-        'Gender': np.random.choice(['Male', 'Female'], n_students),
-        'Nationality': np.random.choice(['USA', 'UK', 'Canada', 'Australia', 'Germany'], n_students)
-    }
-
-    for item in lessons + activities + food_items:
-        data[item] = np.random.randint(1, 6, n_students)
-
-    df = pd.DataFrame(data)
-    return df, lessons, activities, food_items
-
-# Generate data
-df, lessons, activities, food_items = generate_dummy_data()
+# Load data
+df, lessons, activities, food_items = load_and_process_data()

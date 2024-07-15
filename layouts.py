@@ -1,5 +1,5 @@
 from dash import dcc, html
-from data import lessons, activities, food_items
+from data_generator import lessons, activities, food_items
 
 def create_layout():
     return html.Div([
@@ -20,7 +20,7 @@ def create_layout():
                         options=[
                             {'label': 'Age', 'value': 'Age'},
                             {'label': 'Gender', 'value': 'Gender'},
-                            {'label': 'Nationality', 'value': 'Nationality'}
+                            {'label': 'Country', 'value': 'Country'}
                         ],
                         value='Age'
                     ),
