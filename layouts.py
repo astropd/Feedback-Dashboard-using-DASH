@@ -2,6 +2,9 @@ from dash import dcc, html
 from data import lessons, activities, food_items
 
 def create_layout():
+    all_items = lessons + activities + food_items
+    default_item = all_items[0] if all_items else 'No items available'
+
     return html.Div([
         html.H1("Student Feedback Dashboard"),
         
@@ -38,8 +41,8 @@ def create_layout():
                     html.H3("Rating Distribution"),
                     dcc.Dropdown(
                         id='distribution-dropdown',
-                        options=[{'label': col, 'value': col} for col in lessons + activities + food_items],
-                        value=lessons[0]
+                        options=[{'label': col, 'value': col} for col in all_items],
+                        value=default_item
                     ),
                     dcc.Graph(id='distribution-chart')
                 ])
